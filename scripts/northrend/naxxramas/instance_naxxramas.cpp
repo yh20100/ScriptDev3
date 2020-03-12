@@ -82,7 +82,9 @@ struct is_naxxramas : public InstanceScript
             if (!m_mGothTriggerMap.empty()) //see SetGothTriggers
             {
                 for (std::unordered_map<ObjectGuid, GothTrigger>::iterator it = m_mGothTriggerMap.begin(); it != m_mGothTriggerMap.end(); ++it)
+                {
                     delete &it->second;
+                }
             }
         }
 
@@ -91,7 +93,9 @@ struct is_naxxramas : public InstanceScript
             memset(&m_auiEncounter, 0, sizeof(m_auiEncounter));
 
             for (uint8 i = 0; i < MAX_SPECIAL_ACHIEV_CRITS; ++i)
+            {
                 m_abAchievCriteria[i] = false;
+            }
 
             m_dialogueHelper.InitializeDialogueHelper(this, true);
         }
@@ -101,12 +105,16 @@ struct is_naxxramas : public InstanceScript
             for (uint8 i = 0; i <= TYPE_KELTHUZAD; ++i)
             {
                 if (m_auiEncounter[i] == IN_PROGRESS)
+                {
                     return true;
+                }
             }
 
             // Some Encounters use SPECIAL while in progress
             if (m_auiEncounter[TYPE_GOTHIK] == SPECIAL)
+            {
                 return true;
+            }
 
             return false;
         }
@@ -115,11 +123,15 @@ struct is_naxxramas : public InstanceScript
         {
             // Function only used to summon Sapphiron in case of server reload
             if (GetData(TYPE_SAPPHIRON) != SPECIAL)
+            {
                 return;
+            }
 
             // Check if already summoned
             if (GetSingleCreatureFromStorage(NPC_SAPPHIRON, true))
+            {
                 return;
+            }
 
             pPlayer->SummonCreature(NPC_SAPPHIRON, aSapphPositions[0], aSapphPositions[1], aSapphPositions[2], aSapphPositions[3], TEMPSUMMON_DEAD_DESPAWN, 0);
         }
@@ -415,7 +427,9 @@ struct is_naxxramas : public InstanceScript
             case TYPE_FOUR_HORSEMEN:
                 // Skip if already set
                 if (m_auiEncounter[uiType] == uiData)
+                {
                     return;
+                }
 
                 if (uiData == SPECIAL)
                 {
@@ -466,7 +480,9 @@ struct is_naxxramas : public InstanceScript
             case TYPE_THADDIUS:
                 // Only process real changes here
                 if (m_auiEncounter[uiType] == uiData)
+                {
                     return;
+                }
 
                 m_auiEncounter[uiType] = uiData;
                 if (uiData != SPECIAL)
@@ -567,7 +583,9 @@ struct is_naxxramas : public InstanceScript
         uint32 GetData(uint32 uiType) const override
         {
             if (uiType < MAX_ENCOUNTER)
+            {
                 return m_auiEncounter[uiType];
+            }
 
             return 0;
         }
@@ -763,7 +781,9 @@ struct is_naxxramas : public InstanceScript
             Creature* pHeigan = GetSingleCreatureFromStorage(NPC_HEIGAN_THE_UNCLEAN);
 
             if (!pHeigan || uiAreaIndex >= MAX_HEIGAN_TRAP_AREAS)
+            {
                 return;
+            }
 
             for (GuidList::const_iterator itr = m_alHeiganTrapGuids[uiAreaIndex].begin(); itr != m_alHeiganTrapGuids[uiAreaIndex].end(); ++itr)
             {
@@ -835,7 +855,9 @@ struct is_naxxramas : public InstanceScript
             GameObject* pCombatGate = GetSingleGameObjectFromStorage(GO_MILI_GOTH_COMBAT_GATE);
 
             if (!pGoth || !pCombatGate)
+            {
                 return;
+            }
 
             if (!m_mGothTriggerMap.empty())
             {
@@ -857,7 +879,9 @@ struct is_naxxramas : public InstanceScript
             GetGothSummonPointCreatures(true, lSummonList);
 
             if (lSummonList.empty())
+            {
                 return;
+            }
 
             // Trainees and Rider
             uint8 index = 0;
@@ -899,7 +923,9 @@ struct is_naxxramas : public InstanceScript
         {
             Creature* pGoth = GetSingleCreatureFromStorage(NPC_GOTHIK);
             if (!pGoth || pGoth->IsDead())
+            {
                 return;
+            }
 
             GuidList* plSummonPosGuids;
             switch (uiSummonEntry)
@@ -911,7 +937,9 @@ struct is_naxxramas : public InstanceScript
                 return;
             }
             if (plSummonPosGuids->empty())
+            {
                 return;
+            }
 
             for (GuidList::iterator itr = plSummonPosGuids->begin(); itr != plSummonPosGuids->end(); ++itr)
             {
@@ -968,12 +996,16 @@ struct at_naxxramas : public AreaTriggerScript
         if (pAt->id == AREATRIGGER_KELTHUZAD)
         {
             if (pPlayer->isGameMaster() || !pPlayer->IsAlive())
+            {
                 return false;
+            }
 
             ScriptedInstance* pInstance = (ScriptedInstance*)pPlayer->GetInstanceData();
 
             if (!pInstance)
+            {
                 return false;
+            }
 
             if (pInstance->GetData(TYPE_KELTHUZAD) == NOT_STARTED)
             {

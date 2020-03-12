@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020 MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -421,7 +421,9 @@ struct npc_taelan_fordring : public CreatureScript
         void MoveInLineOfSight(Unit* pWho) override
         {
             if (m_bTaelanDead)
+            {
                 return;
+            }
 
             npc_escortAI::MoveInLineOfSight(pWho);
         }
@@ -536,7 +538,9 @@ struct npc_taelan_fordring : public CreatureScript
         void SummonedMovementInform(Creature* pSummoned, uint32 /*uiMotionType*/, uint32 uiPointId) override
         {
             if (pSummoned->GetEntry() != NPC_TIRION_FORDRING)
+            {
                 return;
+            }
 
             if (uiPointId == 100)
             {
@@ -625,12 +629,16 @@ struct npc_taelan_fordring : public CreatureScript
                                           std::list<Creature*> lElitesInRange;
                                           Player* pPlayer = GetPlayerForEscort();
                                           if (!pPlayer)
+                                          {
                                               return;
+                                          }
 
                                           GetCreatureListWithEntryInGrid(lElitesInRange, m_creature, NPC_CRIMSON_ELITE, 70.0f);
 
                                           for (std::list<Creature*>::const_iterator itr = lElitesInRange.begin(); itr != lElitesInRange.end(); ++itr)
+                                          {
                                               (*itr)->AI()->AttackStart(pPlayer);
+                                          }
 
                                           // Isillien only attacks Taelan
                                           if (Creature* pIsillien = m_creature->GetMap()->GetCreature(m_isillenGuid))
@@ -710,10 +718,14 @@ struct npc_taelan_fordring : public CreatureScript
             DialogueUpdate(uiDiff);
 
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             if (m_bTaelanDead)
+            {
                 return;
+            }
 
             if (!m_bTaelanDead && m_creature->GetHealthPercent() < 50.0f)
             {
@@ -879,7 +891,9 @@ struct npc_isillien : public CreatureScript
         void ReceiveAIEvent(AIEventType eventType, Creature* pSender, Unit* pInvoker, uint32 /*uiMiscValue*/) override
         {
             if (pSender->GetEntry() != NPC_TAELAN_FORDRING)
+            {
                 return;
+            }
 
             // move outside the tower
             if (eventType == AI_EVENT_START_ESCORT)
@@ -906,7 +920,9 @@ struct npc_isillien : public CreatureScript
         void UpdateEscortAI(const uint32 uiDiff) override
         {
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             // start event epilog
             if (!m_bTirionSpawned && m_creature->GetHealthPercent() < 20.0f)
@@ -1040,7 +1056,9 @@ struct npc_tirion_fordring : public CreatureScript
         void ReceiveAIEvent(AIEventType eventType, Creature* pSender, Unit* pInvoker, uint32 /*uiMiscValue*/) override
         {
             if (pSender->GetEntry() != NPC_TAELAN_FORDRING)
+            {
                 return;
+            }
 
             if (eventType == AI_EVENT_START_ESCORT)
             {
@@ -1072,7 +1090,9 @@ struct npc_tirion_fordring : public CreatureScript
         {
             // custom points; ignore in escort AI
             if (uiPointId == 100 || uiPointId == 200)
+            {
                 return;
+            }
 
             npc_escortAI::MovementInform(uiMoveType, uiPointId);
         }
@@ -1080,7 +1100,9 @@ struct npc_tirion_fordring : public CreatureScript
         void UpdateEscortAI(const uint32 uiDiff) override
         {
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             // combat spells
             if (m_uiHolyCleaveTimer < uiDiff)

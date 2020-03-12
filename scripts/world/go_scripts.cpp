@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020 MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -254,7 +254,9 @@ struct go_tele_to_dalaran_crystal : public GameObjectScript
     bool OnUse(Player* pPlayer, GameObject* pGo) override
     {
         if (pPlayer->GetQuestRewardStatus(QUEST_TELE_CRYSTAL_FLAG))
+        {
             return false;
+        }
 
         // TODO: must send error message (what kind of message? On-screen?)
         return true;
@@ -272,7 +274,9 @@ struct go_tele_to_violet_stand : public GameObjectScript
     bool OnUse(Player* pPlayer, GameObject* pGo) override
     {
         if (pPlayer->GetQuestRewardStatus(QUEST_LEARN_LEAVE_RETURN) || pPlayer->GetQuestStatus(QUEST_LEARN_LEAVE_RETURN) == QUEST_STATUS_INCOMPLETE)
+        {
             return false;
+        }
 
         // TODO: must send error message (what kind of message? On-screen?)
         return true;
@@ -332,7 +336,7 @@ struct go_andorhal_tower : public GameObjectScript
 };
 
 #if defined (CLASSIC) || defined (TBC)
-enum 
+enum
 {
     GOSSIP_TABLE_THEKA = 1653,
     QUEST_SPIDER_GOD = 2936

@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020  MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -222,7 +222,7 @@ struct mob_firesworn : public CreatureScript
                 m_bExploding = true;
             }
         }
-    
+
 #if defined (WOTLK) || defined (CATA) || defined(MISTS)
     void JustDied(Unit* /*pKiller*/) override
     {
@@ -251,8 +251,10 @@ struct mob_firesworn : public CreatureScript
             {
 #if defined (WOTLK) || defined (CATA) || defined(MISTS)
             if (!m_pInstance)
+            {
                 return;
-#endif            
+            }
+#endif
                 // Distance guesswork, but should be ok
                 Creature* pGarr = m_pInstance->GetSingleCreatureFromStorage(NPC_GARR);
                 if (pGarr && pGarr->IsAlive() && !m_creature->IsWithinDist2d(pGarr->GetPositionX(), pGarr->GetPositionY(), 50.0f))
@@ -275,7 +277,7 @@ struct mob_firesworn : public CreatureScript
                 m_creature->SetDeathState(JUST_DIED);
                 m_creature->RemoveCorpse();
             }
-#endif    
+#endif
 
             DoMeleeAttackIfReady();
         }

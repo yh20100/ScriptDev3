@@ -85,7 +85,10 @@ struct npc_cooshcoosh : public CreatureScript
                 DoCastSpellIfCan(m_creature->getVictim(), SPELL_LIGHTNING_BOLT);
                 m_uiLightningBolt_Timer = 5000;
             }
-            else { m_uiLightningBolt_Timer -= uiDiff; }
+            else
+            {
+                m_uiLightningBolt_Timer -= uiDiff;
+            }
 
             DoMeleeAttackIfReady();
         }
@@ -322,7 +325,9 @@ struct npc_fhwoor : public CreatureScript
         void UpdateEscortAI(const uint32 uiDiff) override
         {
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             if (m_uiStompTimer < uiDiff)
             {

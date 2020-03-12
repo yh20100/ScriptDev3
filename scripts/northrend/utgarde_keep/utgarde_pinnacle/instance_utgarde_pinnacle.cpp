@@ -54,7 +54,9 @@ struct is_pinnacle : public InstanceScript
             memset(&m_auiEncounter, 0, sizeof(m_auiEncounter));
 
             for (uint8 i = 0; i < MAX_SPECIAL_ACHIEV_CRITS; ++i)
+            {
                 m_abAchievCriteria[i] = false;
+            }
         }
 
         void OnCreatureCreate(Creature* pCreature) override
@@ -190,7 +192,9 @@ struct is_pinnacle : public InstanceScript
             case TYPE_SKADI:
                 // Don't process the event twice
                 if (m_auiEncounter[uiType] == uiData)
+                {
                     return;
+                }
                 switch (uiData)
                 {
                 case DONE:
@@ -268,7 +272,9 @@ struct is_pinnacle : public InstanceScript
         uint32 GetData(uint32 uiType) const override
         {
             if (uiType < MAX_ENCOUNTER)
+            {
                 return m_auiEncounter[uiType];
+            }
 
             return 0;
         }

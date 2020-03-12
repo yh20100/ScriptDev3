@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020  MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ enum
     TYPE_GEDDON                 = 5,
     TYPE_GOLEMAGG               = 6,
     TYPE_SULFURON               = 7,    // do not change order: end
-    TYPE_MAJORDOMO              = 8, 
+    TYPE_MAJORDOMO              = 8,
     TYPE_RAGNAROS               = 9,
     TYPE_FLAME_DOUSED           = MAX_ENCOUNTER,
     TYPE_DO_FREE_GARR_ADDS      = MAX_ENCOUNTER+1,

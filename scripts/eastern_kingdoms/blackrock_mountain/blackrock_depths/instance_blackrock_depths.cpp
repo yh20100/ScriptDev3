@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020  MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,9 +69,9 @@ instance_blackrock_depths::instance_blackrock_depths(Map* pMap) : ScriptedInstan
 void instance_blackrock_depths::Initialize()
 {
     memset(&m_auiEncounter, 0, sizeof(m_auiEncounter));
-    
+
 };
-    
+
 void instance_blackrock_depths::OnCreatureCreate(Creature* pCreature)
 {
     switch (pCreature->GetEntry())
@@ -182,7 +182,9 @@ void instance_blackrock_depths::OnCreatureDeath(Creature* pCreature)
         case NPC_DOPEREL:
             // Only handle the event when event is in progress
             if (GetData(TYPE_TOMB_OF_SEVEN) != IN_PROGRESS)
+            {
                 return;
+            }
             // Call the next dwarf only if it's the last one which joined the fight
             if (pCreature->GetEntry() == aTombDwarfes[m_uiDwarfRound - 1])
                 DoCallNextDwarf();
@@ -200,7 +202,9 @@ void instance_blackrock_depths::OnCreatureDeath(Creature* pCreature)
             // Do nothing if the patrol was already spawned or is about to:
             // Plugger has made the bar hostile
             if (GetData(TYPE_BAR) == IN_PROGRESS || GetData(TYPE_PLUGGER) == IN_PROGRESS || GetData(TYPE_BAR) == DONE || GetData(TYPE_PLUGGER) == DONE)
+            {
                 return;
+            }
             else
                 SetData(TYPE_BAR, IN_PROGRESS);
             break;
@@ -212,10 +216,14 @@ void instance_blackrock_depths::OnCreatureDeath(Creature* pCreature)
                 uint32 uiTextId;
 
                 if (!pDagran->IsAlive())
+                {
                     return;
+                }
 
                 if (m_uiDagranTimer > 0)
+                {
                     return;
+                }
 
                 switch (urand(0, 3))
                 {
@@ -227,8 +235,8 @@ void instance_blackrock_depths::OnCreatureDeath(Creature* pCreature)
                 DoScriptText(uiTextId, pDagran);
                 m_uiDagranTimer = 30000;    // set a timer of 30 sec to avoid Emperor Thaurissan to spam yells in case many senators are killed in a short amount of time
             }
-            break;   
-                
+            break;
+
     }
 }
 
@@ -457,7 +465,9 @@ void instance_blackrock_depths::SetData(uint32 uiType, uint32 uiData)
         return;
     case TYPE_FLAMELASH:
         for (int i = 0; i < MAX_DWARF_RUNES; ++i)
+        {
             DoUseDoorOrButton(GO_DWARFRUNE_A01 + i);
+        }
         return;
     case TYPE_HURLEY:
         if (uiData == SPECIAL)
@@ -472,7 +482,9 @@ void instance_blackrock_depths::SetData(uint32 uiType, uint32 uiData)
                     Creature* pHurley = pPlugger->SummonCreature(NPC_HURLEY_BLACKBREATH, aHurleyPositions[0], aHurleyPositions[1], aHurleyPositions[2], aHurleyPositions[3], TEMPSUMMON_DEAD_DESPAWN, 0);
 
                     if (!pHurley)
+                    {
                         return;
+                    }
 
                     // Summon cronies around Hurley
                     for (uint8 i = 0; i < MAX_CRONIES; ++i)
@@ -548,9 +560,13 @@ uint32 instance_blackrock_depths::GetData(uint32 uiType) const
         return m_auiEncounter[1];
     case TYPE_ROCKNOT:
         if (m_auiEncounter[2] == IN_PROGRESS && m_uiBarAleCount == 3)
+        {
             return SPECIAL;
+        }
     else
+    {
         return m_auiEncounter[2];
+    }
     case TYPE_TOMB_OF_SEVEN:
         return m_auiEncounter[3];
     case TYPE_LYCEUM:
@@ -560,9 +576,9 @@ uint32 instance_blackrock_depths::GetData(uint32 uiType) const
     case TYPE_QUEST_JAIL_BREAK:
         return m_auiEncounter[6];
     case TYPE_SIGNAL:
-        return m_uiArenaCenterAT;  
+        return m_uiArenaCenterAT;
     case TYPE_FLAMELASH:
-        return m_auiEncounter[7];      
+        return m_auiEncounter[7];
     case TYPE_HURLEY:
         return m_auiEncounter[8];
     case TYPE_BRIDGE:
@@ -600,7 +616,7 @@ void instance_blackrock_depths::Load(const char* chrIn)
 
     OUT_LOAD_INST_DATA_COMPLETE;
 }
-                
+
 void instance_blackrock_depths::HandleBarPatrons(uint8 uiEventType)
 {
     switch (uiEventType)
@@ -674,12 +690,14 @@ void instance_blackrock_depths::HandleBarPatrons(uint8 uiEventType)
         default:
             return;
     }
-} 
-           
+}
+
 void instance_blackrock_depths::HandleBarPatrol(uint8 uiStep)
 {
     if (GetData(TYPE_BAR) == DONE)
+    {
         return;
+    }
 
     switch (uiStep)
     {
@@ -744,7 +762,7 @@ void instance_blackrock_depths::HandleBarPatrol(uint8 uiStep)
             break;
     }
 }
-        
+
 void instance_blackrock_depths::Update(uint32 uiDiff)
 {
     if (m_uiDwarfFightTimer)

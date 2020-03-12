@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020 MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -362,7 +362,9 @@ struct npc_dragonmaw_peon : public CreatureScript
             if (eventType == AI_EVENT_CUSTOM_A && pSender == m_creature && pInvoker->GetTypeId() == TYPEID_PLAYER)
             {
                 if (m_playerGuid)
+                {
                     return;
+                }
 
                 m_playerGuid = pInvoker->GetObjectGuid();
                 m_uiMoveTimer = 500;
@@ -472,7 +474,7 @@ struct npc_dragonmaw_peon : public CreatureScript
                     m_uiPoisonTimer -= uiDiff;
                 }
             }
-            
+
             DoMeleeAttackIfReady();
         }
     };
@@ -564,7 +566,7 @@ struct npc_wilda : public CreatureScript
 
     struct npc_wildaAI : public npc_escortAI
     {
-        npc_wildaAI(Creature* pCreature) : npc_escortAI(pCreature) { 
+        npc_wildaAI(Creature* pCreature) : npc_escortAI(pCreature) {
 #if defined (WOTLK) || defined (CATA) || defined(MISTS)
         // the creature is floating in a prison; no quest available first;
         // the floating prison setup and quest flag restore is handled by DB
@@ -593,7 +595,7 @@ struct npc_wilda : public CreatureScript
         if (roll_chance_i(30))
             DoCastSpellIfCan(m_creature, SPELL_EARTHBING_TOTEM);
     }
-    
+
     void AttackStart(Unit* pWho) override
     {
         if (m_creature->Attack(pWho, true))
@@ -707,7 +709,7 @@ struct npc_wilda : public CreatureScript
 #endif
         }
 
-#if defined (TBC) 
+#if defined (TBC)
         void JustSummoned(Creature* pSummoned) override
         {
             if (pSummoned->GetEntry() == NPC_COILSKAR_ASSASSIN)
@@ -738,7 +740,7 @@ struct npc_wilda : public CreatureScript
         }
     }
 #endif
-#if defined (TBC) 
+#if defined (TBC)
         void DoSpawnAssassin()
         {
             // unknown where they actually appear
@@ -762,8 +764,10 @@ struct npc_wilda : public CreatureScript
 
         // random chance to yell
         if (roll_chance_i(20))
+        {
             return;
-        
+        }
+
         // random text when assassin is summoned
         switch (urand(0, 6))
         {
@@ -806,9 +810,11 @@ struct npc_wilda : public CreatureScript
     {
         std::list<Creature*> lSpiritsInRange;
         GetCreatureListWithEntryInGrid(lSpiritsInRange, m_creature, NPC_CAPTURED_WATER_SPIRIT, 50.0f);
-        
+
         if (lSpiritsInRange.empty())
+        {
             return;
+        }
 
         // all spirits follow
         for (std::list<Creature*>::const_iterator itr = lSpiritsInRange.begin(); itr != lSpiritsInRange.end(); ++itr)
@@ -818,18 +824,22 @@ struct npc_wilda : public CreatureScript
             (*itr)->SetLevitate(false);
         }
     }
-    
+
     void DoDespawnSpirits()
     {
         std::list<Creature*> lSpiritsInRange;
         GetCreatureListWithEntryInGrid(lSpiritsInRange, m_creature, NPC_CAPTURED_WATER_SPIRIT, 50.0f);
-        
+
         if (lSpiritsInRange.empty())
+        {
             return;
-        
+        }
+
         // all spirits follow
         for (std::list<Creature*>::const_iterator itr = lSpiritsInRange.begin(); itr != lSpiritsInRange.end(); ++itr)
+        {
             (*itr)->ForcedDespawn(6000);
+        }
     }
 #endif
 

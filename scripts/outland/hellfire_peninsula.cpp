@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020 MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -708,7 +708,9 @@ struct npc_anchorite_barada : public CreatureScript
         {
             // no attack during the exorcism
             if (m_bEventInProgress)
+            {
                 return;
+            }
 
             ScriptedAI::AttackStart(pWho);
         }
@@ -717,7 +719,9 @@ struct npc_anchorite_barada : public CreatureScript
         {
             // no evade during the exorcism
             if (m_bEventInProgress)
+            {
                 return;
+            }
 
             ScriptedAI::EnterEvadeMode();
         }
@@ -762,7 +766,9 @@ struct npc_anchorite_barada : public CreatureScript
         void MovementInform(uint32 uiType, uint32 uiPointId) override
         {
             if (uiType != WAYPOINT_MOTION_TYPE)
+            {
                 return;
+            }
 
             switch (uiPointId)
             {
@@ -880,7 +886,9 @@ struct npc_anchorite_barada : public CreatureScript
             DialogueUpdate(uiDiff);
 
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             DoMeleeAttackIfReady();
         }
@@ -935,7 +943,9 @@ struct npc_colonel_jules : public CreatureScript
         {
             Creature* pAnchorite = GetClosestCreatureWithEntry(pCreature, NPC_ANCHORITE_BARADA, 15.0f);
             if (!pAnchorite)
+            {
                 return true;
+            }
 
             pCreature->AI()->SendAIEvent(AI_EVENT_CUSTOM_A, pPlayer, pAnchorite);
             return true;
@@ -958,7 +968,9 @@ struct spell_just_release_darkness : public SpellScript
             Creature *pCreatureTarget = pTarget->ToCreature();
             Creature* pAnchorite = GetClosestCreatureWithEntry(pCreatureTarget, NPC_ANCHORITE_BARADA, 15.0f);
             if (!pAnchorite)
+            {
                 return false;
+            }
 
             // get random point around the Anchorite
             float fX, fY, fZ;
@@ -996,22 +1008,22 @@ static const float aGraveYardLocation[11][4] =
 };
 
 struct npc_caretaker_dilandrus : public CreatureScript
-{        
+{
        npc_caretaker_dilandrus() : CreatureScript("npc_caretaker_dilandrus") {}
 
     struct npc_caretaker_dilandrusAI : public ScriptedAI
     {
-        npc_caretaker_dilandrusAI(Creature* pCreature) : ScriptedAI(pCreature) 
-        { 
-            Reset(); 
+        npc_caretaker_dilandrusAI(Creature* pCreature) : ScriptedAI(pCreature)
+        {
+            Reset();
         }
-        
+
         uint32 uVisitGraveTimer, uCurrentStage, uLastGraveVisited;
 
-        void Reset() override 
+        void Reset() override
         {
-            uVisitGraveTimer = 0; 
-            uCurrentStage = 1;    
+            uVisitGraveTimer = 0;
+            uCurrentStage = 1;
             uLastGraveVisited = 0;
         }
 
@@ -1083,7 +1095,7 @@ struct npc_caretaker_dilandrus : public CreatureScript
         }
 
     };
-        
+
     CreatureAI* GetAI(Creature* pCreature) override
     {
         return new npc_caretaker_dilandrusAI(pCreature);
@@ -1169,7 +1181,9 @@ struct  npc_magister_aledisAI : public ScriptedAI
     void UpdateAI(const uint32 uiDiff) override
     {
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+        {
             return;
+        }
 
         if (!m_bIsDefeated && m_creature->GetHealthPercent() < 25.0f)
         {
@@ -1208,7 +1222,7 @@ struct  npc_magister_aledisAI : public ScriptedAI
             m_uiFrostNovaTimer -= uiDiff;
 
         DoMeleeAttackIfReady();
-    }  
+    }
 };
 
 CreatureAI* GetAI_npc_magister_aledis(Creature* pCreature)
@@ -1287,11 +1301,11 @@ void AddSC_hellfire_peninsula()
     //pNewScript->pGossipHello = &GossipHello_npc_colonel_jules;
     //pNewScript->pEffectDummyNPC = &EffectDummyCreature_npc_colonel_jules;
     //pNewScript->RegisterSelf();
-    
+
 #if defined (WOTLK) || defined (CATA) || defined(MISTS)
     s = new npc_magister_aledis();
     s->RegisterSelf();
-    
+
     //pNewScript = new Script;
     //pNewScript->Name = "npc_magister_aledis";
     //pNewScript->GetAI = &GetAI_npc_magister_aledis;

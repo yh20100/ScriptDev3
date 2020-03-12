@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020 MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -155,7 +155,9 @@ struct npc_tapoke_slim_jahn : public CreatureScript
         void DamageTaken(Unit* /*pDoneBy*/, uint32& uiDamage) override
         {
             if (!HasEscortState(STATE_ESCORT_ESCORTING))
+            {
                 return;
+            }
 
             if (m_creature->HealthBelowPctDamaged(20, uiDamage))
             {
@@ -181,7 +183,9 @@ struct npc_tapoke_slim_jahn : public CreatureScript
         void MovementInform(uint32 uiMoveType, uint32 uiPointId) override
         {
             if (uiMoveType != POINT_MOTION_TYPE || !HasEscortState(STATE_ESCORT_ESCORTING))
+            {
                 return;
+            }
 
             npc_escortAI::MovementInform(uiMoveType, uiPointId);
 
@@ -219,7 +223,9 @@ struct npc_tapoke_slim_jahn : public CreatureScript
         Creature* GetSpeakerByEntry(uint32 uiEntry) override
         {
             if (uiEntry == NPC_TAPOKE_SLIM_JAHN)
+            {
                 return m_creature;
+            }
 
             return nullptr;
         }
@@ -230,7 +236,9 @@ struct npc_tapoke_slim_jahn : public CreatureScript
             DialogueUpdate(uiDiff);
 
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             DoMeleeAttackIfReady();
         }

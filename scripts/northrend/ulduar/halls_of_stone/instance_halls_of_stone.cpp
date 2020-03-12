@@ -227,7 +227,9 @@ struct is_halls_of_stone : public InstanceScript
                     {
                         uint32 uiSpawnNumber = (instance->IsRegularDifficulty() ? 2 : 3);
                         for (uint8 i = 0; i < uiSpawnNumber; ++i)
+                        {
                             pStalker->CastSpell(pStalker, SPELL_SUMMON_PROTECTOR, true, nullptr, nullptr, m_mNpcEntryGuidStore[NPC_BRANN_HOS]);
+                        }
                         pStalker->CastSpell(pStalker, SPELL_SUMMON_STORMCALLER, true, nullptr, nullptr, m_mNpcEntryGuidStore[NPC_BRANN_HOS]);
                     }
                     break;
@@ -235,7 +237,9 @@ struct is_halls_of_stone : public InstanceScript
                     if (Creature* pStalker = instance->GetCreature(m_stormcallerStalkerGuid))
                     {
                         for (uint8 i = 0; i < 2; ++i)
+                        {
                             pStalker->CastSpell(pStalker, SPELL_SUMMON_STORMCALLER, true, nullptr, nullptr, m_mNpcEntryGuidStore[NPC_BRANN_HOS]);
+                        }
                     }
                     break;
                 case NPC_IRON_GOLEM_CUSTODIAN:
@@ -273,7 +277,9 @@ struct is_halls_of_stone : public InstanceScript
         uint32 GetData(uint32 uiType) const override
         {
             if (uiType < MAX_ENCOUNTER)
+            {
                 return m_auiEncounter[uiType];
+            }
 
             return 0;
         }
@@ -336,7 +342,9 @@ struct is_halls_of_stone : public InstanceScript
         void ActivateFace(uint8 uiFace, bool bAfterEvent)   //@TODO get rid of the method
         {
             if (uiFace >= MAX_FACES)
+            {
                 return;
+            }
 
             if (bAfterEvent)
                 DoUseDoorOrButton(m_aFaces[uiFace].m_goFaceGuid);
@@ -351,7 +359,9 @@ struct is_halls_of_stone : public InstanceScript
         void DoFaceSpeak(uint8 uiFace, int32 iTextId)   //@TODO get rid of the method
         {
             if (uiFace >= MAX_FACES)
+            {
                 return;
+            }
 
             if (Creature* pSpeaker = instance->GetCreature(m_aFaces[uiFace].m_speakerGuid))
                 DoScriptText(iTextId, pSpeaker);

@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020 MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -363,7 +363,7 @@ struct is_stratholme : public InstanceScript
             case TYPE_BARON:
                 if (uiData == IN_PROGRESS)
                 {
-                
+
 
                     // Close Slaughterhouse door if needed
                     if (m_auiEncounter[uiType] == FAIL)
@@ -597,8 +597,8 @@ struct is_stratholme : public InstanceScript
             case NPC_RAMSTEIN:
                 SetData(TYPE_RAMSTEIN, IN_PROGRESS);
                 break;
-            case NPC_BARON:             
-        SetData(TYPE_BARON, IN_PROGRESS);    
+            case NPC_BARON:
+        SetData(TYPE_BARON, IN_PROGRESS);
         break;
             case NPC_ABOM_BILE:
             case NPC_ABOM_VENOM:
@@ -630,8 +630,8 @@ struct is_stratholme : public InstanceScript
             case NPC_RAMSTEIN:
                 SetData(TYPE_RAMSTEIN, FAIL);
                 break;
-            case NPC_BARON:             
-        SetData(TYPE_BARON, FAIL);    
+            case NPC_BARON:
+        SetData(TYPE_BARON, FAIL);
         break;
             case NPC_ABOM_BILE:
             case NPC_ABOM_VENOM:

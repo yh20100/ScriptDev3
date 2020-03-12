@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020  MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -447,10 +447,12 @@ bool SD3::AreaTrigger(Player* pPlayer, AreaTriggerEntry const* atEntry)
 bool SD3::NpcSpellClick(Player* pPlayer, Creature* pClickedCreature, uint32 uiSpellId)
 {
     Script* pTempScript = m_scripts[pClickedCreature->GetScriptId()];
-    
+
     if (!pTempScript || !pTempScript->ToCreatureScript())
+    {
         return false;
-    
+    }
+
     return pTempScript->ToCreatureScript()->OnSpellClick(pPlayer, pClickedCreature, uiSpellId);
 }
 #endif
@@ -586,13 +588,19 @@ InstanceData* SD3::CreateInstanceData(Map* pMap)
 {
     Script* pTempScript = m_scripts[pMap->GetScriptId()];
     if (!pTempScript)
+    {
         return nullptr;
+    }
 
     if (pTempScript->ToInstanceScript())
+    {
         return pTempScript->ToInstanceScript()->GetInstanceData(pMap);
+    }
 
     if (pTempScript->ToZoneScript())
+    {
         return pTempScript->ToZoneScript()->GetInstanceData(pMap);
+    }
 
     return nullptr;
 }

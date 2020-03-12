@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020  MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -122,7 +122,7 @@ enum NetherspitePhases
 
 enum PortalProperties
 {
-    PORTAL_ENTRY = 0,    
+    PORTAL_ENTRY = 0,
     PORTAL_VISUAL = 1,
     PORTAL_VISUAL_PLR = 2,
     PORTAL_VISUAL_NS = 3,
@@ -140,7 +140,7 @@ static const uint32 auiPortalVector[MAX_PORTAL_PROPERTIES][MAX_PORTALS] =
     { SPELL_BEAM_GREEN, SPELL_BEAM_BLUE, SPELL_BEAM_RED },    // 3 - visual spells for netherspite
     { SPELL_SERENITY_PLR, SPELL_DOMINANCE_PLR, SPELL_PERSEVERENCE_PLR },  // 4 - buffs for players
     { SPELL_SERENITY_NS, SPELL_DOMINANCE_NS, SPELL_PERSEVERENCE_NS },  // 5 - buffs for netherspite
-    { SPELL_EXHAUSTION_SER, SPELL_EXHAUSTION_DOM, SPELL_EXHAUSTION_PER },    // 6 - debuffs    
+    { SPELL_EXHAUSTION_SER, SPELL_EXHAUSTION_DOM, SPELL_EXHAUSTION_PER },    // 6 - debuffs
 };
 
 //adjust how easy it is to catch the beam
@@ -190,7 +190,9 @@ struct boss_netherspite : public CreatureScript
             m_vPortalEntryList.resize(MAX_PORTALS);
 
             for (uint8 i = 0; i < MAX_PORTALS; ++i)
+            {
                 m_vPortalEntryList[i] = auiPortalVector[PORTAL_ENTRY][i];
+            }
 
             DoResetPortals();
         }
@@ -264,7 +266,9 @@ struct boss_netherspite : public CreatureScript
         void DoSummonPortals()
         {
             for (uint8 i = 0; i < MAX_PORTALS; ++i)
+            {
                 m_creature->SummonCreature(m_vPortalEntryList[i], aPortalCoordinates[i].fX, aPortalCoordinates[i].fY, aPortalCoordinates[i].fZ, aPortalCoordinates[i].fO, TEMPSUMMON_TIMED_DESPAWN, 60000);
+            }
 
             // randomize the portals after the first summon
             std::random_shuffle(m_vPortalEntryList.begin(), m_vPortalEntryList.end());
@@ -411,7 +415,9 @@ struct boss_netherspite : public CreatureScript
         void UpdateAI(const uint32 uiDiff) override
         {
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             //PHASE SWITCH
             if (m_uiPhaseSwitchTimer <= uiDiff)

@@ -86,7 +86,9 @@ struct mob_vrykul_skeleton : public CreatureScript
         void MoveInLineOfSight(Unit* pWho) override
         {
             if (!pWho || m_uiReviveTimer)
+            {
                 return;
+            }
 
             ScriptedAI::MoveInLineOfSight(pWho);
         }
@@ -94,7 +96,9 @@ struct mob_vrykul_skeleton : public CreatureScript
         void AttackStart(Unit* pWho) override
         {
             if (!pWho || m_uiReviveTimer)
+            {
                 return;
+            }
 
             ScriptedAI::AttackStart(pWho);
         }
@@ -137,7 +141,9 @@ struct mob_vrykul_skeleton : public CreatureScript
         void UpdateAI(const uint32 uiDiff) override
         {
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             if (m_uiReviveTimer)
             {
@@ -237,7 +243,9 @@ struct boss_keleseth : public CreatureScript
         void SummonAdds()
         {
             for (uint8 i = 0; i < 4; ++i)
+            {
                 m_creature->SummonCreature(NPC_VRYKUL_SKELETON, fAddPosition[0] + rand() % 7, fAddPosition[1] + rand() % 7, fAddPosition[2], fAddPosition[3], TEMPSUMMON_DEAD_DESPAWN, 0);
+            }
         }
 
         void DespawnOrKillAdds(bool bDespawn)
@@ -295,7 +303,9 @@ struct boss_keleseth : public CreatureScript
         void UpdateAI(const uint32 uiDiff) override
         {
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             if (m_uiSummonTimer)
             {

@@ -214,7 +214,9 @@ struct is_trial_of_the_champion : public InstanceScript
 
                     // fill vector array with indexes from creature array
                     for (uint8 i = 0; i < MAX_CHAMPIONS_AVAILABLE; ++i)
+                    {
                         m_vChampionsIndex[i] = i;
+                    }
 
                     // set a random champion list
                     std::random_shuffle(m_vChampionsIndex.begin(), m_vChampionsIndex.end());
@@ -321,7 +323,9 @@ struct is_trial_of_the_champion : public InstanceScript
         uint32 GetData(uint32 uiType) const override
         {
             if (uiType < MAX_ENCOUNTER)
+            {
                 return m_auiEncounter[uiType];
+            }
 
             return 0;
         }
@@ -359,10 +363,14 @@ struct is_trial_of_the_champion : public InstanceScript
         void DoSummonHeraldIfNeeded(Unit* pSummoner)
         {
             if (!pSummoner)
+            {
                 return;
+            }
 
             if (GetSingleCreatureFromStorage(m_uiHeraldEntry, true))
+            {
                 return;
+            }
 
             pSummoner->SummonCreature(m_uiHeraldEntry, aHeraldPositions[0][0], aHeraldPositions[0][1], aHeraldPositions[0][2], aHeraldPositions[0][3], TEMPSUMMON_DEAD_DESPAWN, 0);
 
@@ -370,7 +378,9 @@ struct is_trial_of_the_champion : public InstanceScript
             if (GetData(TYPE_GRAND_CHAMPIONS) != DONE)
             {
                 for (uint8 i = 0; i < MAX_CHAMPIONS_MOUNTS; ++i)
+                {
                     pSummoner->SummonCreature(m_uiTeam == ALLIANCE ? aTrialChampionsMounts[i].uiEntryAlliance : aTrialChampionsMounts[i].uiEntryHorde, aTrialChampionsMounts[i].fX, aTrialChampionsMounts[i].fY, aTrialChampionsMounts[i].fZ, aTrialChampionsMounts[i].fO, TEMPSUMMON_DEAD_DESPAWN, 0);
+                }
             }
         }
 

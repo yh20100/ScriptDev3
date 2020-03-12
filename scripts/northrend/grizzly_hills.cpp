@@ -82,12 +82,16 @@ struct aura_charge_golem : public AuraScript
     bool OnDummyApply(const Aura* pAura, bool bApply) override
     {
         if (pAura->GetId() != SPELL_CHARGE_GOLEM)
+        {
             return true;
+        }
 
         Creature* pCreature = (Creature*)pAura->GetTarget();
 
         if (!pCreature)
+        {
             return true;
+        }
 
         if (pAura->GetEffIndex() == EFFECT_INDEX_0)
         {
@@ -202,7 +206,9 @@ struct npc_harrison_jones : public CreatureScript
                 lBunniesInRange.sort(ObjectDistanceOrder(pSummoned));
 
                 for (std::list<Creature*>::const_iterator itr = lBunniesInRange.begin(); itr != lBunniesInRange.end(); ++itr)
+                {
                     m_lImmolationBunnyGuids.push_back((*itr)->GetObjectGuid());
+                }
             }
             else if (pSummoned->GetEntry() == NPC_ANCIENT_DRAKKARI_KING)
                 pSummoned->AI()->AttackStart(m_creature);
@@ -228,7 +234,9 @@ struct npc_harrison_jones : public CreatureScript
             GetCreatureListWithEntryInGrid(lBunniesInRange, m_creature, NPC_MUMMY_EFFECT_BUNNY, 50.0f);
 
             for (std::list<Creature*>::const_iterator itr = lBunniesInRange.begin(); itr != lBunniesInRange.end(); ++itr)
+            {
                 (*itr)->RemoveAurasDueToSpell(SPELL_BUNNY_IMMOLATION);
+            }
 
             m_uiActivateMummiesTimer = 0;
         }
@@ -277,7 +285,9 @@ struct npc_harrison_jones : public CreatureScript
                        GetCreatureListWithEntryInGrid(lBunniesInRange, m_creature, NPC_MUMMY_EFFECT_BUNNY, 50.0f);
 
                        for (std::list<Creature*>::const_iterator itr = lBunniesInRange.begin(); itr != lBunniesInRange.end(); ++itr)
+                       {
                            (*itr)->CastSpell((*itr), SPELL_BUNNY_IMMOLATION, true);
+                       }
 
                        m_creature->SetFacingTo(5.0f);
                        DoCastSpellIfCan(m_creature, SPELL_GONG_EFFECT);
@@ -327,7 +337,9 @@ struct npc_harrison_jones : public CreatureScript
         void UpdateEscortAI(const uint32 uiDiff) override
         {
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             // special script for snake fight
             if (m_uiActivateMummiesTimer)
@@ -477,7 +489,9 @@ struct npc_emily : public CreatureScript
         void SummonedMovementInform(Creature* pSummoned, uint32 uiType, uint32 uiPointId) override
         {
             if (uiType != POINT_MOTION_TYPE || !uiPointId)
+            {
                 return;
+            }
 
             switch (pSummoned->GetEntry())
             {

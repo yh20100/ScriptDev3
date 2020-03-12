@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020  MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -369,7 +369,7 @@ struct spell_request_body : public SpellScript
 {
     spell_request_body() : SpellScript("spell_request_body") {}
 
-    bool EffectScriptEffect(Unit* pCaster, uint32 uiSpellId, SpellEffectIndex uiEffIndex, Creature* pCreatureTarget, ObjectGuid /*originalCasterGuid*/) 
+    bool EffectScriptEffect(Unit* pCaster, uint32 uiSpellId, SpellEffectIndex uiEffIndex, Creature* pCreatureTarget, ObjectGuid /*originalCasterGuid*/)
     {
         if (uiSpellId == SPELL_REQUEST_BODY && uiEffIndex == EFFECT_INDEX_0)
         {
@@ -420,7 +420,9 @@ struct boss_head_of_horseman : public CreatureScript
         {
             // allow him to die the last phase
             if (m_uiHeadPhase >= 3)
+            {
                 return;
+            }
 
             // rejoin and switch to next phase
             if (m_creature->GetHealthPercent() < float(100 - m_uiHeadPhase * 33.3f))
@@ -433,7 +435,9 @@ struct boss_head_of_horseman : public CreatureScript
         void ReceiveAIEvent(AIEventType eventType, Creature* /*pSender*/, Unit* pInvoker, uint32 /*uiMiscValue*/) override
         {
             if (pInvoker->GetEntry() != NPC_HEADLESS_HORSEMAN)
+            {
                 return;
+            }
 
             // toss head
             if (eventType == AI_EVENT_CUSTOM_A)
@@ -481,7 +485,7 @@ struct spell_send_head : public SpellScript
 {
     spell_send_head() : SpellScript("spell_send_head") {}
 
-    bool EffectScriptEffect(Unit* pCaster, uint32 uiSpellId, SpellEffectIndex uiEffIndex, Creature* pCreatureTarget, ObjectGuid /*originalCasterGuid*/) 
+    bool EffectScriptEffect(Unit* pCaster, uint32 uiSpellId, SpellEffectIndex uiEffIndex, Creature* pCreatureTarget, ObjectGuid /*originalCasterGuid*/)
     {
         if (uiSpellId == SPELL_SEND_HEAD && uiEffIndex == EFFECT_INDEX_0)
         {

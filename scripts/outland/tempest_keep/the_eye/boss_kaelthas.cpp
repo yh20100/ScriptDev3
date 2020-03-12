@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020 MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -848,7 +848,9 @@ struct advisor_base_ai : public ScriptedAI
         if (m_pInstance)
         {
             if (Creature* pKael = m_pInstance->GetSingleCreatureFromStorage(NPC_KAELTHAS))
-            { pKael->AI()->EnterEvadeMode(); }
+            {
+                pKael->AI()->EnterEvadeMode();
+            }
 
             m_pInstance->SetData(TYPE_KAELTHAS, FAIL);
         }
@@ -858,10 +860,14 @@ struct advisor_base_ai : public ScriptedAI
     {
         // Allow fake death only in the first phase
         if (!m_bCanFakeDeath)
-        { return; }
+        {
+            return;
+        }
 
         if (uiDamage < m_creature->GetHealth())
-        { return; }
+        {
+            return;
+        }
 
         // Make sure it won't die by accident
         if (m_bFakeDeath)
@@ -898,9 +904,13 @@ struct advisor_base_ai : public ScriptedAI
             m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_NON_ATTACKABLE);
             m_creature->GetMotionMaster()->Clear();
             if (m_creature->GetEntry() == NPC_CAPERNIAN)
-            { DoStartMovement(m_creature->getVictim(), 20.0f); }
+            {
+                DoStartMovement(m_creature->getVictim(), 20.0f);
+            }
             else
-            { DoStartMovement(m_creature->getVictim()); }
+            {
+                DoStartMovement(m_creature->getVictim());
+            }
             m_bCanFakeDeath = false;
             m_bFakeDeath = false;
         }

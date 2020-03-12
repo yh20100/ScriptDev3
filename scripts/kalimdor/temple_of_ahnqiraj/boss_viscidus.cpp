@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020 MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -234,7 +234,9 @@ struct boss_viscidus : public CreatureScript
         void SummonedMovementInform(Creature* pSummoned, uint32 uiType, uint32 uiPointId) override
         {
             if (pSummoned->GetEntry() != NPC_GLOB_OF_VISCIDUS || uiType != POINT_MOTION_TYPE || !uiPointId)
+            {
                 return;
+            }
 
             m_lGlobesGuidList.remove(pSummoned->GetObjectGuid());
             pSummoned->CastSpell(m_creature, SPELL_REJOIN_VISCIDUS, true);
@@ -257,7 +259,9 @@ struct boss_viscidus : public CreatureScript
             uiDamage = uiDamage * 0.5f;
 
             if (m_uiPhase != PHASE_FROZEN)
+            {
                 return;
+            }
 
             ++m_uiHitCount;
 
@@ -278,7 +282,9 @@ struct boss_viscidus : public CreatureScript
                     uint32 uiGlobeCount = m_creature->GetHealthPercent() / 5.0f;
 
                     for (uint8 i = 0; i < uiGlobeCount; ++i)
+                    {
                         DoCastSpellIfCan(m_creature, auiGlobSummonSpells[i], CAST_TRIGGERED);
+                    }
 
                     m_creature->RemoveAurasDueToSpell(SPELL_VISCIDUS_FREEZE);
                     m_uiExplodeDelayTimer = 2000;
@@ -297,10 +303,16 @@ struct boss_viscidus : public CreatureScript
         void SpellHit(Unit* /*pCaster*/, const SpellEntry* pSpell) override
         {
             if (m_uiPhase != PHASE_NORMAL)
+            {
                 return;
+            }
 
             // only count frost damage
-            if (pSpell->SchoolMask == SPELL_SCHOOL_MASK_FROST)
+#if defined(MISTS)
+        	if (pSpell->GetSchoolMask() == SPELL_SCHOOL_MASK_FROST)
+#else
+        	if (pSpell->SchoolMask == SPELL_SCHOOL_MASK_FROST)
+#endif
             {
                 ++m_uiHitCount;
 
@@ -332,7 +344,9 @@ struct boss_viscidus : public CreatureScript
             if (eventType == AI_EVENT_CUSTOM_A)
             {
                 if (m_uiPhase == PHASE_EXPLODED)
+                {
                     return;
+                }
 
                 // reset phase if not already exploded
                 m_uiPhase = PHASE_NORMAL;
@@ -367,7 +381,9 @@ struct boss_viscidus : public CreatureScript
             }
 
             if (m_uiPhase != PHASE_NORMAL)
+            {
                 return;
+            }
 #endif
 
             if (m_uiPoisonShockTimer < uiDiff)

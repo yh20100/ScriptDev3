@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020 MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1052,7 +1052,9 @@ struct boss_tethyr : public CreatureScript
                     GetGameObjectListWithEntryInGrid(lCannonsInRange, m_creature, GO_COVE_CANNON, 100.0f);
 
                     for (std::list<GameObject*>::const_iterator itr = lCannonsInRange.begin(); itr != lCannonsInRange.end(); ++itr)
+                    {
                         (*itr)->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_NO_INTERACT);
+                    }
 
                     // attack all marksmen
                     std::list<Creature*> lMarksmenInRange;
@@ -1084,7 +1086,9 @@ struct boss_tethyr : public CreatureScript
         {
             // count the marksmen
             if (pVictim->GetEntry() != NPC_THERAMORE_MARKSMAN)
+            {
                 return;
+            }
 
             ++m_uiMarksmenKilled;
 
@@ -1108,7 +1112,9 @@ struct boss_tethyr : public CreatureScript
             if (pCaster->GetEntry() == NPC_THERAMORE_CANNON && pSpell->Id == SPELL_CANNON_BLAST_DMG)
             {
                 if (m_uiPhase == PHASE_SPOUT)
+                {
                     return;
+                }
 
                 // not all cannons have same distance range
                 uint8 uiDistMod = pCaster->GetPositionY() > -4650.0f ? 6 : 5;
@@ -1133,14 +1139,18 @@ struct boss_tethyr : public CreatureScript
             GetGameObjectListWithEntryInGrid(lCannonsInRange, m_creature, GO_COVE_CANNON, 100.0f);
 
             for (std::list<GameObject*>::const_iterator itr = lCannonsInRange.begin(); itr != lCannonsInRange.end(); ++itr)
+            {
                 (*itr)->SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_NO_INTERACT);
+            }
 
             // despawn all marksmen
             std::list<Creature*> lMarksmenInRange;
             GetCreatureListWithEntryInGrid(lMarksmenInRange, m_creature, NPC_THERAMORE_MARKSMAN, 100.0f);
 
             for (std::list<Creature*>::const_iterator itr = lMarksmenInRange.begin(); itr != lMarksmenInRange.end(); ++itr)
+            {
                 (*itr)->ForcedDespawn(30000);
+            }
         }
 
         // Custom threat management
@@ -1148,14 +1158,18 @@ struct boss_tethyr : public CreatureScript
         {
             // Not started combat or evading prevented
             if (!m_creature->IsInCombat() || m_creature->HasAuraType(SPELL_AURA_MOD_TAUNT))
+            {
                 return false;
+            }
 
             // Check if there are still enemies (marksmen) in the threatList
             ThreatList const& threatList = m_creature->GetThreatManager().getThreatList();
             for (ThreatList::const_iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
             {
                 if ((*itr)->getUnitGuid().IsCreature())
+                {
                     return true;
+                }
             }
 
             EnterEvadeMode();
@@ -1165,7 +1179,9 @@ struct boss_tethyr : public CreatureScript
         void UpdateAI(const uint32 uiDiff) override
         {
             if (!SelectCustomHostileTarget())
+            {
                 return;
+            }
 
             if (m_uiPhase == PHASE_SPOUT)
             {

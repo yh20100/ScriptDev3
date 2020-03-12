@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020 MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -432,7 +432,7 @@ struct npc_disciple_of_naralex : public CreatureScript
                             {
                                 // ToDo: Make Naralex fly
                                 // sort of a hack, compare to boss_onyxia
-#if defined (CLASSIC)  
+#if defined (CLASSIC)
                                 pNaralex->SetByteValue(UNIT_FIELD_BYTES_1, 3, UNIT_BYTE1_FLAG_ALWAYS_STAND);
 #else
                                     pNaralex->SetByteValue(UNIT_FIELD_BYTES_1, 3, UNIT_BYTE1_FLAG_ALWAYS_STAND | UNIT_BYTE1_FLAG_FLY_ANIM);
@@ -543,7 +543,7 @@ struct npc_disciple_of_naralex : public CreatureScript
             if (npc_disciple_of_naralexAI* pEscortAI = dynamic_cast<npc_disciple_of_naralexAI*>(pCreature->AI()))
             {
                 pEscortAI->Start(false, pPlayer);               // Note: after 4.0.3 set him run = true
-#if defined (CLASSIC)  
+#if defined (CLASSIC)
                 pCreature->SetFactionTemporary(FACTION_ESCORT_N_NEUTRAL_ACTIVE, TEMPFACTION_RESTORE_RESPAWN);
 #else
             pCreature->SetFactionTemporary(FACTION_ESCORT_N_ACTIVE, TEMPFACTION_RESTORE_RESPAWN);

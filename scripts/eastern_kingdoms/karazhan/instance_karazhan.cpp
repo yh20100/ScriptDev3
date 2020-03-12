@@ -4,7 +4,7 @@
  * the default database scripting in mangos-one.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020  MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -101,7 +101,9 @@ struct is_karazhan : public InstanceScript
             for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             {
                 if (m_auiEncounter[i] == IN_PROGRESS)
+                {
                     return true;
+                }
             }
 
             return false;
@@ -114,7 +116,9 @@ struct is_karazhan : public InstanceScript
 
             // If the opera event is already set, return
             if (GetData(TYPE_OPERA_PERFORMANCE) != 0)
+            {
                 return;
+            }
 
             // Set the Opera Performance type on the first player enter
             SetData(TYPE_OPERA_PERFORMANCE, urand(OPERA_EVENT_WIZARD_OZ, OPERA_EVENT_ROMULO_AND_JUL));
@@ -406,7 +410,9 @@ struct is_karazhan : public InstanceScript
         uint32 GetData(uint32 uiType) const override
         {
             if (uiType < MAX_ENCOUNTER)
+            {
                 return m_auiEncounter[uiType];
+            }
 
             switch (uiType)
             {
@@ -601,11 +607,15 @@ struct is_karazhan : public InstanceScript
             // get the proper statusBar npc
             Creature* pStatusBar = instance->GetCreature(m_HordeStatusGuid);
             if (!pStatusBar)
+            {
                 return;
+            }
 
             lStalkers.sort(ObjectDistanceOrder(pStatusBar));
             for (std::list<Creature*>::const_iterator itr = lStalkers.begin(); itr != lStalkers.end(); ++itr)
+            {
                 m_vHordeStalkers.push_back((*itr)->GetObjectGuid());
+            }
 
             lStalkers.clear();
             for (GuidList::const_iterator itr = m_lChessAllianceStalkerList.begin(); itr != m_lChessAllianceStalkerList.end(); ++itr)
@@ -623,11 +633,15 @@ struct is_karazhan : public InstanceScript
             // get the proper statusBar npc
             pStatusBar = instance->GetCreature(m_AllianceStatusGuid);
             if (!pStatusBar)
+            {
                 return;
+            }
 
             lStalkers.sort(ObjectDistanceOrder(pStatusBar));
             for (std::list<Creature*>::const_iterator itr = lStalkers.begin(); itr != lStalkers.end(); ++itr)
+            {
                 m_vAllianceStalkers.push_back((*itr)->GetObjectGuid());
+            }
         }
 
         void DoPrepareOperaStage(Creature* pOrganizer)
@@ -639,17 +653,23 @@ struct is_karazhan : public InstanceScript
             {
             case OPERA_EVENT_WIZARD_OZ:
                 for (uint8 i = 0; i < MAX_OZ_OPERA_MOBS; ++i)
+                {
                     pOrganizer->SummonCreature(aOperaLocOz[i].uiEntry, aOperaLocOz[i].fX, aOperaLocOz[i].fY, aOperaLocOz[i].fZ, aOperaLocOz[i].fO, TEMPSUMMON_DEAD_DESPAWN, 0);
+                }
                 DoRespawnGameObject(GO_OZ_BACKDROP, 12 * HOUR);
                 for (GuidList::const_iterator itr = m_lOperaHayGuidList.begin(); itr != m_lOperaHayGuidList.end(); ++itr)
+                {
                     DoRespawnGameObject(*itr, 12 * HOUR);
+                }
                 break;
             case OPERA_EVENT_RED_RIDING_HOOD:
                 pOrganizer->SummonCreature(aOperaLocWolf.uiEntry, aOperaLocWolf.fX, aOperaLocWolf.fY, aOperaLocWolf.fZ, aOperaLocWolf.fO, TEMPSUMMON_DEAD_DESPAWN, 0);
                 DoRespawnGameObject(GO_HOOD_BACKDROP, 12 * HOUR);
                 DoRespawnGameObject(GO_HOOD_HOUSE, 12 * HOUR);
                 for (GuidList::const_iterator itr = m_lOperaTreeGuidList.begin(); itr != m_lOperaTreeGuidList.end(); ++itr)
+                {
                     DoRespawnGameObject(*itr, 12 * HOUR);
+                }
                 break;
             case OPERA_EVENT_ROMULO_AND_JUL:
                 pOrganizer->SummonCreature(aOperaLocJul.uiEntry, aOperaLocJul.fX, aOperaLocJul.fY, aOperaLocJul.fZ, aOperaLocJul.fO, TEMPSUMMON_DEAD_DESPAWN, 0);
@@ -682,7 +702,9 @@ struct is_karazhan : public InstanceScript
                         }
                     }
                     if (pChosenTrigger)
+                    {
                         return pChosenTrigger->GetObjectGuid().GetRawValue();
+                    }
                 }
             }
             return 0;
@@ -723,7 +745,9 @@ struct is_karazhan : public InstanceScript
                 }
 
                 if (!vTargets.empty())
+                {
                     return vTargets[urand(0, vTargets.size() - 1)]->GetObjectGuid().GetRawValue();
+                }
             }
             return 0;
         }
@@ -753,7 +777,9 @@ struct is_karazhan : public InstanceScript
                 GetCreatureListWithEntryInGrid(lSquaresList, searcher, NPC_SQUARE_WHITE, fRadius);
 
                 if (lSquaresList.empty())
+                {
                     return 0;
+                }
 
                 // Get the list of enemies
                 GuidList lTempList;
@@ -768,7 +794,9 @@ struct is_karazhan : public InstanceScript
                 }
 
                 if (lEnemies.empty())
+                {
                     return 0;
+                }
 
                 // Sort the enemies by distance and the squares compared to the distance to the closest enemy
                 lEnemies.sort(ObjectDistanceOrder(searcher));
@@ -791,10 +819,14 @@ struct is_karazhan : public InstanceScript
             // get the proper statusBar npc
             Creature* pStatusBar = instance->GetCreature(uiFaction == FACTION_ID_CHESS_ALLIANCE ? m_AllianceStatusGuid : m_HordeStatusGuid);
             if (!pStatusBar)
+            {
                 return;
+            }
 
             if (vStalkers.size() < uiCount + 1)
+            {
                 return;
+            }
 
             // handle stalker transformation
             if (Creature* pStalker = instance->GetCreature(vStalkers[uiCount]))

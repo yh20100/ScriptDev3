@@ -241,7 +241,9 @@ struct boss_algalon : public CreatureScript
         void KilledUnit(Unit* pVictim) override
         {
             if (pVictim->GetTypeId() != TYPEID_PLAYER)
+            {
                 return;
+            }
 
             DoScriptText(urand(0, 1) ? SAY_SLAY_1 : SAY_SLAY_2, m_creature);
         }
@@ -269,7 +271,9 @@ struct boss_algalon : public CreatureScript
         {
             // don't attack again after being defeated
             if (m_bEventFinished)
+            {
                 return;
+            }
 
             ScriptedAI::AttackStart(pWho);
         }
@@ -295,7 +299,9 @@ struct boss_algalon : public CreatureScript
         void JustReachedHome() override
         {
             if (!m_pInstance)
+            {
                 return;
+            }
 
             if (m_bEventFinished)
             {
@@ -381,7 +387,9 @@ struct boss_algalon : public CreatureScript
         void MovementInform(uint32 uiMoveType, uint32 uiPointId) override
         {
             if (uiMoveType != POINT_MOTION_TYPE || !uiPointId)
+            {
                 return;
+            }
 
             // start intro and reset home position
             StartNextDialogueText(SAY_INTRO_1);
@@ -393,7 +401,9 @@ struct boss_algalon : public CreatureScript
         void JustDidDialogueStep(int32 iEntry) override
         {
             if (!m_pInstance)
+            {
                 return;
+            }
 
             switch (iEntry)
             {
@@ -450,7 +460,9 @@ struct boss_algalon : public CreatureScript
         void DoSpawnConstellations()
         {
             for (uint8 i = 0; i < MAX_CONSTELATIONS; ++i)
+            {
                 m_creature->SummonCreature(NPC_LIVING_CONSTELLATION, afConstellations[i][0], afConstellations[i][1], afConstellations[i][2], afConstellations[i][3], TEMPSUMMON_DEAD_DESPAWN, 0);
+            }
         }
 
         // Activate a random Constellation
@@ -494,7 +506,9 @@ struct boss_algalon : public CreatureScript
             DialogueUpdate(uiDiff);
 
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             if (m_uiBerserkTimer)
             {
@@ -556,7 +570,9 @@ struct boss_algalon : public CreatureScript
                     if (uiMaxStars)
                     {
                         for (uint8 i = 0; i < uiMaxStars; ++i)
+                        {
                             DoSpawnCollapsingStar();
+                        }
 
                         DoScriptText(SAY_SUMMON_STAR, m_creature);
                         m_uiCollapsingStarTimer = 60000;
@@ -576,7 +592,9 @@ struct boss_algalon : public CreatureScript
                         m_uiConstellationTimer = 50000;
 
                         for (uint8 i = 0; i < uiMaxConstellations; ++i)
+                        {
                             ActivateRandomConstellation();
+                        }
                     }
                     else
                         m_uiConstellationTimer = 10000;
@@ -600,7 +618,9 @@ struct boss_algalon : public CreatureScript
 
                 // spawn new worm holes
                 for (uint8 i = 0; i < MAX_WORM_HOLES; ++i)
+                {
                     m_creature->SummonCreature(NPC_WORM_HOLE, afWormHoles[i][0], afWormHoles[i][1], afWormHoles[i][2], 0, TEMPSUMMON_DEAD_DESPAWN, 0);
+                }
             }
 
             DoMeleeAttackIfReady();
@@ -807,10 +827,14 @@ struct go_celestial_access : public GameObjectScript
     {
         ScriptedInstance* pInstance = (ScriptedInstance*)pGo->GetInstanceData();
         if (!pInstance)
+        {
             return true;
+        }
 
         if (pInstance->GetData(TYPE_ALGALON) != NOT_STARTED)
+        {
             return true;
+        }
 
         // Set instance data and allow DB scripts to continue the event
         pInstance->SetData(TYPE_ALGALON, SPECIAL);

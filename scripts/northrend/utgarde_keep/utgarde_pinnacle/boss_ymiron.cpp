@@ -117,7 +117,9 @@ struct boss_ymiron : public CreatureScript
             m_bIsRegularMode = pCreature->GetMap()->IsRegularDifficulty();
 
             for (uint8 i = 0; i < MAX_BOATS; ++i)
+            {
                 m_vuiBoatPhases.push_back(i);
+            }
         }
 
         ScriptedInstance* m_pInstance;
@@ -213,7 +215,9 @@ struct boss_ymiron : public CreatureScript
         void DoResetSpirits()
         {
             if (!m_pInstance)
+            {
                 return;
+            }
 
             for (uint8 i = 0; i < MAX_BOATS; ++i)
             {
@@ -250,7 +254,9 @@ struct boss_ymiron : public CreatureScript
         void MovementInform(uint32 uiMotionType, uint32 uiPointId) override
         {
             if (uiMotionType != POINT_MOTION_TYPE || !uiPointId)
+            {
                 return;
+            }
 
             if (Creature* pSpirit = m_creature->GetMap()->GetCreature(m_uiCurrentSpiritGuid))
             {
@@ -264,7 +270,9 @@ struct boss_ymiron : public CreatureScript
         void UpdateAI(const uint32 uiDiff) override
         {
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             if (m_uiSpiritTransformTimer)
             {
@@ -295,7 +303,9 @@ struct boss_ymiron : public CreatureScript
 
             // Don't attack while channeling on the boats
             if (m_bIsChannelingSpirit)
+            {
                 return;
+            }
 
             if (m_uiBaneTimer < uiDiff)
             {
@@ -421,7 +431,9 @@ struct event_achiev_kings_bane : public MapEventScript
         if (InstanceData* pInstance = ((Creature*)pSource)->GetInstanceData())
         {
             if (pInstance->GetData(TYPE_YMIRON) != IN_PROGRESS)
+            {
                 return false;
+            }
 
             pInstance->SetData(TYPE_YMIRON, SPECIAL);
             return true;

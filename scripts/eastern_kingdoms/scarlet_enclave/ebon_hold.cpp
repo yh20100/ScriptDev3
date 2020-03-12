@@ -140,43 +140,63 @@ struct npc_a_special_surprise : public CreatureScript
             {
             case 29061:                                     // Ellen Stanbridge
                 if (pPlayer->GetQuestStatus(12742) == QUEST_STATUS_INCOMPLETE)
+                {
                     return true;
+                }
                 break;
             case 29072:                                     // Kug Ironjaw
                 if (pPlayer->GetQuestStatus(12748) == QUEST_STATUS_INCOMPLETE)
+                {
                     return true;
+                }
                 break;
             case 29067:                                     // Donovan Pulfrost
                 if (pPlayer->GetQuestStatus(12744) == QUEST_STATUS_INCOMPLETE)
+                {
                     return true;
+                }
                 break;
             case 29065:                                     // Yazmina Oakenthorn
                 if (pPlayer->GetQuestStatus(12743) == QUEST_STATUS_INCOMPLETE)
+                {
                     return true;
+                }
                 break;
             case 29071:                                     // Antoine Brack
                 if (pPlayer->GetQuestStatus(12750) == QUEST_STATUS_INCOMPLETE)
+                {
                     return true;
+                }
                 break;
             case 29032:                                     // Malar Bravehorn
                 if (pPlayer->GetQuestStatus(12739) == QUEST_STATUS_INCOMPLETE)
+                {
                     return true;
+                }
                 break;
             case 29068:                                     // Goby Blastenheimer
                 if (pPlayer->GetQuestStatus(12745) == QUEST_STATUS_INCOMPLETE)
+                {
                     return true;
+                }
                 break;
             case 29073:                                     // Iggy Darktusk
                 if (pPlayer->GetQuestStatus(12749) == QUEST_STATUS_INCOMPLETE)
+                {
                     return true;
+                }
                 break;
             case 29074:                                     // Lady Eonys
                 if (pPlayer->GetQuestStatus(12747) == QUEST_STATUS_INCOMPLETE)
+                {
                     return true;
+                }
                 break;
             case 29070:                                     // Valok the Righteous
                 if (pPlayer->GetQuestStatus(12746) == QUEST_STATUS_INCOMPLETE)
+                {
                     return true;
+                }
                 break;
             }
 
@@ -186,7 +206,9 @@ struct npc_a_special_surprise : public CreatureScript
         void MoveInLineOfSight(Unit* pWho) override
         {
             if (m_playerGuid || pWho->GetTypeId() != TYPEID_PLAYER || !pWho->IsWithinDist(m_creature, INTERACTION_DISTANCE))
+            {
                 return;
+            }
 
             if (MeetQuestCondition((Player*)pWho))
                 m_playerGuid = pWho->GetObjectGuid();
@@ -657,7 +679,9 @@ struct npc_death_knight_initiate : public CreatureScript
                 {
                     Player* pPlayer = m_creature->GetMap()->GetPlayer(m_duelerGuid);
                     if (!pPlayer)
+                    {
                         return;
+                    }
 
                     switch (m_uiDuelStartStage)
                     {
@@ -690,7 +714,9 @@ struct npc_death_knight_initiate : public CreatureScript
             }
 
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             if (m_uiBloodStrikeTimer < uiDiff)
             {
@@ -861,7 +887,9 @@ struct npc_koltira_deathweaver : public CreatureScript
         void SummonAcolyte(uint32 uiAmount)
         {
             for (uint32 i = 0; i < uiAmount; ++i)
+            {
                 m_creature->SummonCreature(NPC_CRIMSON_ACOLYTE, 1642.329f, -6045.818f, 127.583f, 0.0f, TEMPSUMMON_TIMED_OOC_DESPAWN, 5000);
+            }
         }
 
         void UpdateEscortAI(const uint32 uiDiff) override
@@ -926,7 +954,9 @@ struct npc_koltira_deathweaver : public CreatureScript
             }
 
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             DoMeleeAttackIfReady();
         }
@@ -1106,9 +1136,13 @@ struct npc_unworthy_initiate : public CreatureScript
         Creature* GetAnchor()
         {
             if (m_myAnchorGuid)
+            {
                 return m_creature->GetMap()->GetCreature(m_myAnchorGuid);
+            }
             else
+            {
                 return GetClosestCreatureWithEntry(m_creature, NPC_ANCHOR, INTERACTION_DISTANCE * 2);
+            }
         }
 
         void SetAnchor()
@@ -1154,7 +1188,9 @@ struct npc_unworthy_initiate : public CreatureScript
             if (m_uiPhase == PHASE_INACTIVE_OR_COMBAT)
             {
                 if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+                {
                     return;
+                }
 
                 if (m_uiBloodStrike_Timer < uiDiff)
                 {
@@ -1294,7 +1330,9 @@ struct npc_eye_of_acherus : public CreatureScript
         void MovementInform(uint32 uiType, uint32 uiPointId) override
         {
             if (uiType != POINT_MOTION_TYPE || uiPointId != POINT_EYE_DESTINATION)
+            {
                 return;
+            }
 
             if (Player* pPlayer = m_creature->GetCharmerOrOwnerPlayerOrPlayerItself())
                 DoScriptText(EMOTE_CONTROL, m_creature, pPlayer);
@@ -1307,7 +1345,9 @@ struct npc_eye_of_acherus : public CreatureScript
         void UpdateAI(const uint32 /*uiDiff*/) override
         {
             if (m_bIsInitialized)
+            {
                 return;
+            }
 
             if (Player* pPlayer = m_creature->GetCharmerOrOwnerPlayerOrPlayerItself())
             {
@@ -1400,7 +1440,9 @@ struct npc_scarlet_ghoul : public CreatureScript
         void ReceiveAIEvent(AIEventType type, Creature *sender, Unit *invoker, uint32 /*data*/)
         {
             if (type != AI_EVENT_CUSTOM_A || sender != m_creature)
+            {
                 return;
+            }
 
             if (!m_bGotHit)                       // First hit
             {
@@ -1444,7 +1486,9 @@ struct npc_scarlet_ghoul : public CreatureScript
             }
 
             if (m_bIsJumping)
+            {
                 return;
+            }
 
             ScriptedPetAI::UpdateAI(uiDiff);
         }
@@ -1742,7 +1786,9 @@ struct npc_highlord_darion_mograine : public CreatureScript
         {
             // if battle has ended return
             if (m_pInstance->GetData(TYPE_BATTLE) != IN_PROGRESS)
+            {
                 return;
+            }
 
             // should we count the 2 behemots and 5 abominations as well?
             switch (pSummoned->GetEntry())
@@ -1792,10 +1838,14 @@ struct npc_highlord_darion_mograine : public CreatureScript
         void SummonedMovementInform(Creature* pSummoned, uint32 uiType, uint32 uiPointId) override
         {
             if (uiType != POINT_MOTION_TYPE || uiPointId != POINT_MOVE_CHAPEL)
+            {
                 return;
+            }
 
             if (!m_pInstance)
+            {
                 return;
+            }
 
             switch (pSummoned->GetEntry())
             {
@@ -1925,14 +1975,18 @@ struct npc_highlord_darion_mograine : public CreatureScript
         void WaypointReached(uint32 uiPoint) override
         {
             if (!m_pInstance)
+            {
                 return;
+            }
 
             switch (uiPoint)
             {
                 case 0:
                     // summon light champions
                     for (uint8 i = 0; i < MAX_LIGHT_CHAMPIONS; i++)
+                    {
                         m_creature->SummonCreature(aLightArmySpawnLoc[i].m_uiEntry, aLightArmySpawnLoc[i].m_fX, aLightArmySpawnLoc[i].m_fY, aLightArmySpawnLoc[i].m_fZ, aLightArmySpawnLoc[i].m_fO, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 5 * MINUTE * IN_MILLISECONDS);
+                    }
 
                     // summon light soldiers
                     float fX, fY, fZ;
@@ -2011,7 +2065,9 @@ struct npc_highlord_darion_mograine : public CreatureScript
         void EnterEvadeMode() override
         {
             if (!m_pInstance)
+            {
                 return;
+            }
 
             // if evade while the battle is in progress start attacking another target
             if (m_pInstance->GetData(TYPE_BATTLE) == IN_PROGRESS)
@@ -2076,7 +2132,9 @@ struct npc_highlord_darion_mograine : public CreatureScript
                     if (m_uiEventTimer <= uiDiff)
                     {
                         if (!m_pInstance)
+                        {
                             return;
+                        }
 
                         switch (m_uiEventStep)
                         {
@@ -2685,7 +2743,9 @@ struct npc_highlord_darion_mograine : public CreatureScript
                         m_uiFightTimer -= uiDiff;
 
                     if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+                    {
                         return;
+                    }
 
                     // battle sounds
                     if (m_uiFightSpeechTimer < uiDiff)
@@ -2836,7 +2896,9 @@ struct npc_fellow_death_knight : public CreatureScript
         void MovementInform(uint32 uiType, uint32 uiPointId) override
         {
             if (uiType != POINT_MOTION_TYPE || uiPointId != POINT_MOVE_CHAPEL)
+            {
                 return;
+            }
 
             // make the death knights kneel
             if (m_creature->HasAura(SPELL_THE_LIGHT_OF_DAWN_DUMMY))
@@ -2851,10 +2913,14 @@ struct npc_fellow_death_knight : public CreatureScript
         void EnterEvadeMode() override
         {
             if (!m_creature->IsAlive())
+            {
                 return;
+            }
 
             if (!m_pInstance)
+            {
                 return;
+            }
 
             // if evade while the battle is in progress start attacking another target
             if (m_pInstance->GetData(TYPE_BATTLE) == IN_PROGRESS)
@@ -2906,7 +2972,9 @@ struct npc_fellow_death_knight : public CreatureScript
         void UpdateAI(const uint32 uiDiff) override
         {
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             if (m_uiPlagueStrikeTimer < uiDiff)
             {
@@ -3072,7 +3140,9 @@ struct npc_acherus_deathcharger : public CreatureScript
                         Creature* pSalaran = m_creature->GetMap()->GetCreature(m_salaranGuid);
                         Player* pPlayer = m_creature->GetCharmerOrOwnerPlayerOrPlayerItself();
                         if (!pPlayer || !pSalaran)
+                        {
                             return;
+                        }
 
                         pSalaran->CastSpell(pPlayer, SPELL_RACE_COMPLETE, true);
                         pSalaran->ForcedDespawn(1000);

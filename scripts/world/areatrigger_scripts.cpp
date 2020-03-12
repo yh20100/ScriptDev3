@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020 MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@
 
 /**
  * ContentData
-#if defined (WOTLK)    
+#if defined (WOTLK)
  * at_aldurthar_gate                5284, 5285, 5286, 5287
 #endif
 #if defined (TBC) || defined (WOTLK) || defined (CATA) || defined(MISTS)
@@ -43,7 +43,7 @@
  * at_legion_teleporter             4560 Teleporter TO Invasion Point: Cataclysm
 #endif
  * at_ravenholdt
-#if defined (WOTLK)    
+#if defined (WOTLK)
  * at_spearborn_encampment          5030
  * at_warsong_farms
  * at_stormwright_shelf             5108
@@ -51,7 +51,7 @@
  * at_childrens_week_spot           3546, 3547, 3548, 3549, 3550, 3552
  * at_scent_larkorwi                1726, 1727, 1728, 1729, 1730, 1731, 1732, 1733, 1734, 1735, 1736, 1737, 1738, 1739, 1740
  * at_murkdeep                      1966
-#if defined (WOTLK)    
+#if defined (WOTLK)
  * at_hot_on_the_trail              5710, 5711, 5712, 5714, 5715, 5716
  * at_ancient_leaf                  3587
 #endif
@@ -240,7 +240,9 @@ struct at_spearborn_encampment : public AreaTriggerScript
         {
             // can only spawn one at a time, it's not a too good solution
             if (GetClosestCreatureWithEntry(pPlayer, NPC_TARTEK, 50.0f))
+            {
                 return false;
+            }
 
             pPlayer->SummonCreature(NPC_TARTEK, pAt->x, pAt->y, pAt->z, 0.0f, TEMPSUMMON_TIMED_OOC_OR_DEAD_DESPAWN, MINUTE * IN_MILLISECONDS);
         }
@@ -451,7 +453,9 @@ struct at_hot_on_the_trail : public AreaTriggerScript
     bool OnTrigger(Player* pPlayer, AreaTriggerEntry const* pAt) override
     {
         if (pPlayer->isGameMaster() || !pPlayer->IsAlive())
+        {
             return false;
+        }
 
         for (uint8 i = 0; i < 6; ++i)
         {
@@ -505,17 +509,23 @@ struct at_ancient_leaf : public AreaTriggerScript
     bool OnTrigger(Player* pPlayer, AreaTriggerEntry const* pAt) override
     {
         if (pPlayer->isGameMaster() || !pPlayer->IsAlive())
+        {
             return false;
+        }
 
         // Handle Call Ancients event start - The area trigger summons 3 ancients
         if (pPlayer->GetQuestStatus(QUEST_ANCIENT_LEAF) == QUEST_STATUS_COMPLETE)
         {
             // If ancients are already spawned, skip the rest
             if (GetClosestCreatureWithEntry(pPlayer, NPC_VARTRUS, 50.0f) || GetClosestCreatureWithEntry(pPlayer, NPC_STOMA, 50.0f) || GetClosestCreatureWithEntry(pPlayer, NPC_HASTAT, 50.0f))
+            {
                 return true;
+            }
 
             for (uint8 i = 0; i < MAX_ANCIENTS; ++i)
+            {
                 pPlayer->SummonCreature(afSpawnLocations[i].uiEntry, afSpawnLocations[i].fX, afSpawnLocations[i].fY, afSpawnLocations[i].fZ, afSpawnLocations[i].fO, TEMPSUMMON_TIMED_DESPAWN, 5 * MINUTE * IN_MILLISECONDS);
+            }
         }
 
         return false;
@@ -532,7 +542,7 @@ void AddSC_areatrigger_scripts()
 #if defined (WOTLK) || defined (CATA) || defined(MISTS)
     s = new at_aldurthar_gate();
     s->RegisterSelf();
-#endif    
+#endif
     s = new at_ravenholdt();
     s->RegisterSelf();
 

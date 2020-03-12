@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020  MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -89,13 +89,17 @@ struct boss_emperor_dagran_thaurissan : public CreatureScript
         void JustDied(Unit* /*pVictim*/) override
         {
             if (!m_pInstance)
+            {
                 return;
+            }
 
             if (Creature* pPrincess = m_pInstance->GetSingleCreatureFromStorage(NPC_PRINCESS))
             {
                 // check if we didn't update the entry
                 if (pPrincess->GetEntry() != NPC_PRINCESS)
+                {
                     return;
+                }
 
                 if (pPrincess->IsAlive())
                 {
@@ -113,7 +117,9 @@ struct boss_emperor_dagran_thaurissan : public CreatureScript
         void UpdateAI(const uint32 uiDiff) override
         {
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             if (m_uiHandOfThaurissan_Timer < uiDiff)
             {

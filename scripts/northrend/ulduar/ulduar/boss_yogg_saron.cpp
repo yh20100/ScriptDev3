@@ -46,7 +46,7 @@ enum
     SAY_PHASE_2_INTRO_3                         = -1603263,
     SAY_PHASE_2_INTRO_4                         = -1603264,
     SAY_PHASE_2_INTRO_5                         = -1603265,
-    
+
     // phase 2 and 3 yells
     SAY_SARA_PHYCHOSIS                          = -1603207,
     SAY_SARA_DEATH_RAY                          = -1603208,
@@ -148,7 +148,7 @@ enum
     SPELL_FOCUSED_ANGER                         = 57688,
     SPELL_SQUEEZE                               = 64125,
     SPELL_SQUEEZE_H                             = 64126,
-    
+
     // Vision spells
     SPELL_LUNATIC_GAZE_SKULL                    = 64167,
     SPELL_NONDESCRIPT_ARMOR                     = 64013,                    // stun auras for illusions
@@ -157,7 +157,7 @@ enum
     SPELL_SHATTERED_ILLUSION                    = 64173,                    // send event 21669
     SPELL_SHATTERED_ILLUSION_REMOVE             = 65238,                    // remove aura 64173; send event 21671
     SPELL_INDUCE_MADNESS                        = 64059,                    // reduce sanity by 100% to all players with aura 63988
-    
+
     // Old God phase spells
     SPELL_LUNATIC_GAZE_YOGG                     = 64163,
     SPELL_SHADOW_BEACON                         = 64465,                    // triggers 64468
@@ -178,7 +178,7 @@ enum
     SPELL_TELEPORT_TO_CHAMBER_ILLUSION          = 63997,
     SPELL_TELEPORT_TO_ICEECROWN_ILLUSION        = 63998,
     //SPELL_TELEPORT_BACK_TO_MAIN_ROOM            = 63992,                  // triggered by spell 63993
-    
+
     // immortal guardian spells
     SPELL_EMPOWERED                             = 64161,
     SPELL_EMPOWERED_MOD                         = 65294,
@@ -238,7 +238,7 @@ enum
     // Thorim spells
     SPELL_FURY_OF_THE_STORM                     = 62702,
     SPELL_TITANIC_STORM                         = 64171,
-    
+
     // other
     FACTION_SARA_HOSTILE                        = 16,
     MAX_ILLUSIONS                               = 3,
@@ -343,7 +343,9 @@ struct boss_sara : public CreatureScript
         void AttackStart(Unit* pWho) override
         {
             if (m_uiPhase == PHASE_SARA)
+            {
                 return;
+            }
 
             ScriptedAI::AttackStart(pWho);
         }
@@ -351,7 +353,9 @@ struct boss_sara : public CreatureScript
         void EnterEvadeMode() override
         {
             if (!m_bIsHostile)
+            {
                 return;
+            }
 
             ScriptedAI::EnterEvadeMode();
         }
@@ -384,7 +388,9 @@ struct boss_sara : public CreatureScript
         void KilledUnit(Unit* pVictim) override
         {
             if (pVictim->GetTypeId() != TYPEID_PLAYER)
+            {
                 return;
+            }
 
             DoScriptText(urand(0, 1) ? SAY_SARA_SLAY_1 : SAY_SARA_SLAY_2, m_creature);
         }
@@ -467,7 +473,9 @@ struct boss_sara : public CreatureScript
         void DoInitialiseKeepers()
         {
             if (!m_pInstance)
+            {
                 return;
+            }
 
             uint8 uiKeeperCount = 0;
 
@@ -544,7 +552,9 @@ struct boss_sara : public CreatureScript
             }
 
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             if (m_uiPhase == PHASE_VISIONS)
             {
@@ -672,7 +682,9 @@ struct boss_yogg_saron : public CreatureScript
         void KilledUnit(Unit* pVictim) override
         {
             if (pVictim->GetTypeId() != TYPEID_PLAYER)
+            {
                 return;
+            }
 
             DoScriptText(SAY_SLAY, m_creature);
         }
@@ -688,7 +700,9 @@ struct boss_yogg_saron : public CreatureScript
         void UpdateAI(const uint32 uiDiff) override
         {
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             // last phase spells
             if (m_uiPhase == PHASE_OLD_GOD)
@@ -756,7 +770,9 @@ struct npc_voice_yogg_saron : public CreatureScript
             m_bIsRegularMode = pCreature->GetMap()->IsRegularDifficulty();
 
             for (uint8 i = 0; i < MAX_ILLUSIONS; ++i)
+            {
                 m_vuiMadnessPhases.push_back(i);
+            }
         }
 
         ScriptedInstance* m_pInstance;
@@ -937,7 +953,9 @@ struct npc_voice_yogg_saron : public CreatureScript
                     }
 
                     if (!m_pInstance)
+                    {
                         return;
+                    }
 
                     // inform the brain about the current illusion
                     if (Creature* pBrain = m_pInstance->GetSingleCreatureFromStorage(NPC_YOGG_BRAIN))
@@ -1072,7 +1090,9 @@ struct npc_brain_yogg_saron : public CreatureScript
                 m_uiIllusionTimer = 30000;
 
                 if (!m_pInstance)
+                {
                     return;
+                }
 
                 m_pInstance->DoUseDoorOrButton(aMadnessChamberDoors[m_uiIllusionIndex]);
 
@@ -1081,14 +1101,18 @@ struct npc_brain_yogg_saron : public CreatureScript
                 GetGameObjectListWithEntryInGrid(lFleePortals, m_creature, GO_FLEE_TO_SURFACE, 40.0f);
 
                 for (std::list<GameObject*>::const_iterator itr = lFleePortals.begin(); itr != lFleePortals.end(); ++itr)
+                {
                     m_pInstance->DoRespawnGameObject((*itr)->GetObjectGuid(), 30);
+                }
             }
         }
 
         void JustDidDialogueStep(int32 iEntry) override
         {
             if (!m_pInstance)
+            {
                 return;
+            }
 
             switch (iEntry)
             {
@@ -1251,7 +1275,9 @@ struct npc_guardian_of_yogg : public CreatureScript
         void AttackStart(Unit* pWho) override
         {
             if (pWho->GetEntry() == NPC_SARA)
+            {
                 return;
+            }
 
             ScriptedAI::AttackStart(pWho);
         }
@@ -1272,7 +1298,9 @@ struct npc_guardian_of_yogg : public CreatureScript
                         Map::PlayerList const& lPlayers = m_pInstance->instance->GetPlayers();
 
                         if (lPlayers.isEmpty())
+                        {
                             return;
+                        }
 
                         // whisper to all players
                         for (Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
@@ -1292,7 +1320,9 @@ struct npc_guardian_of_yogg : public CreatureScript
         void UpdateAI(const uint32 uiDiff) override
         {
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             if (m_uiDarkVolleyTimer < uiDiff)
             {
@@ -1349,7 +1379,9 @@ struct npc_immortal_guardian : public CreatureScript
         void DamageTaken(Unit* pDealer, uint32& uiDamage) override
         {
             if (pDealer->GetEntry() == NPC_THORIM_HELPER)
+            {
                 return;
+            }
 
             if (uiDamage >= m_creature->GetHealth())
             {
@@ -1367,7 +1399,9 @@ struct npc_immortal_guardian : public CreatureScript
         void UpdateAI(const uint32 uiDiff) override
         {
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             if (m_uiDrainLifeTimer < uiDiff)
             {
@@ -1408,14 +1442,18 @@ struct spell_yogg_empowered : public SpellScript
 
             // if creature already has the required stacks, ignore
             if (uiProjectedStacks == uiCurrentStacks)
+            {
                 return true;
+            }
 
             if (uiCurrentStacks > uiProjectedStacks)
                 pCreatureTarget->RemoveAuraHolderFromStack(SPELL_EMPOWERED_MOD, uiCurrentStacks - uiProjectedStacks);
             else
             {
                 for (uint8 i = 0; i < uiProjectedStacks - uiCurrentStacks; ++i)
+                {
                     pCreatureTarget->CastSpell(pCreatureTarget, SPELL_EMPOWERED_MOD, true);
+                }
             }
 
             if (uiCurrentStacks == 0 && uiCurrentStacks < uiProjectedStacks)
@@ -1612,7 +1650,9 @@ struct npc_descent_madness : public CreatureScript
                 uiClickSpell = pDescentAI->GetCurrentSpell();
 
             if (!uiClickSpell)
+            {
                 return true;
+            }
 
             pPlayer->CastSpell(pPlayer, uiClickSpell, true);
             pClickedCreature->ForcedDespawn();
@@ -1756,7 +1796,7 @@ void AddSC_boss_yogg_saron()
 
     s = new spell_yogg_empowered();
     s->RegisterSelf();
-    
+
     //pNewScript = new Script;
     //pNewScript->Name = "boss_yogg_saron";
     //pNewScript->GetAI = &GetAI_boss_yogg_saron;

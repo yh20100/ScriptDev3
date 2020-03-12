@@ -59,7 +59,7 @@ enum
     TEXT_ID_INN_3               = 12950,
     TEXT_ID_INN_4               = 12952,
     TEXT_ID_INN_TELEPORT        = 13470,
-    
+
     SPELL_TELEPORT_COT_P4       = 53435,                    // triggers 53436
 };
 
@@ -217,7 +217,9 @@ struct aura_cos_arcane_disruption : public AuraScript
             if (Creature* pTarget = (Creature*)pAura->GetTarget())
             {
                 if (pTarget->GetEntry() != NPC_GRAIN_CRATE_HELPER)
+                {
                     return true;
+                }
 
                 if (InstanceData* pInstance = pTarget->GetInstanceData())
                     pInstance->SetData64(TYPE_DATA64_AD_TARGET, pTarget->GetObjectGuid().GetRawValue());
@@ -272,7 +274,7 @@ enum
     SAY_ARTHAS_DEATH            = -1595040,
 
     MUSIC_ID_EVENT_COMPLETE     = 14951,
-    
+
     // gossips
     GOSSIP_ITEM_CITY_GATES      = -3595008,
     GOSSIP_ITEM_TOWN_HALL_1     = -3595009,
@@ -294,7 +296,7 @@ enum
     SPELL_EXORCISM_H            = 58822,
     SPELL_DEVOTION_AURA         = 52442,
     SPELL_CRUSADER_STRIKE       = 50773,                // dummy used on citizens
-    
+
     SPELL_MALGANIS_KILL_CREDIT  = 58124,
     SPELL_MALGANIS_ACHIEVEMENT  = 58630,                // server side spell
 
@@ -417,7 +419,9 @@ struct npc_arthas : public CreatureScript
         }
 
         if (pInvoker->GetTypeId() != TYPEID_PLAYER)
+        {
             return;
+        }
 
         if (eventType == AI_EVENT_START_ESCORT)
         {
@@ -478,7 +482,7 @@ struct npc_arthas : public CreatureScript
         else
             npc_escortAI::MovementInform(uiType, uiPointId);
     }
-    
+
     void JustSummoned(Creature* pSummoned) override
     {
         switch (pSummoned->GetEntry())
@@ -652,7 +656,7 @@ struct npc_arthas : public CreatureScript
                 break;
         }
     }
-    
+
     void JustDidDialogueStep(int32 iEntry) override
     {
         switch (iEntry)
@@ -714,7 +718,9 @@ struct npc_arthas : public CreatureScript
                 break;
             case NPC_LORD_EPOCH:
                 if (!m_pInstance)
+                {
                     return;
+                }
 
                 if (Creature* pEpoch = m_pInstance->GetSingleCreatureFromStorage(NPC_LORD_EPOCH))
                 {
@@ -737,7 +743,9 @@ struct npc_arthas : public CreatureScript
                 // malganis attack
             case NPC_MALGANIS:
                 if (!m_pInstance)
+                {
                     return;
+                }
 
                 if (Creature* pMalganis = m_pInstance->GetSingleCreatureFromStorage(NPC_MALGANIS))
                 {
@@ -751,7 +759,9 @@ struct npc_arthas : public CreatureScript
                 m_creature->PlayMusic(MUSIC_ID_EVENT_COMPLETE);
 
                 if (!m_pInstance)
+                {
                     return;
+                }
 
                 if (Creature* pMalganis = m_pInstance->GetSingleCreatureFromStorage(NPC_MALGANIS))
                 {
@@ -778,7 +788,9 @@ struct npc_arthas : public CreatureScript
             DialogueUpdate(uiDiff);
 
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             if (m_uiExorcismTimer < uiDiff)
             {

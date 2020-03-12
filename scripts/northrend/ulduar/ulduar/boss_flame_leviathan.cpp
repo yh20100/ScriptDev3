@@ -202,7 +202,9 @@ struct boss_flame_leviathan : public CreatureScript
             DoCastSpellIfCan(m_creature, SPELL_INVISIBILITY_DETECTION, CAST_TRIGGERED | CAST_AURA_NOT_PRESENT);
 
             for (uint8 i = 0; i < KEEPER_ENCOUNTER; ++i)
+            {
                 m_bUlduarTower[i] = false;
+            }
 
             m_uiBatteringRamTimer = 10000;
             m_uiFlameVentsTimer = 30000;
@@ -285,7 +287,9 @@ struct boss_flame_leviathan : public CreatureScript
         void SummonedMovementInform(Creature* pSummoned, uint32 uiMoveType, uint32 uiPointId) override
         {
             if (uiMoveType != POINT_MOTION_TYPE || !uiPointId)
+            {
                 return;
+            }
 
             if (pSummoned->GetEntry() == NPC_BRANN_FLYING_MACHINE)
             {
@@ -312,7 +316,9 @@ struct boss_flame_leviathan : public CreatureScript
         void MovementInform(uint32 uiMoveType, uint32 uiPointId) override
         {
             if (uiMoveType != POINT_MOTION_TYPE || !uiPointId)
+            {
                 return;
+            }
 
             // set boss in combat (if not already)
             m_creature->SetInCombatWithZone();
@@ -333,12 +339,16 @@ struct boss_flame_leviathan : public CreatureScript
         void FetchTowers()
         {
             if (!m_pInstance)
+            {
                 return;
+            }
 
             // the orbital support applies the tower auras
             Creature* pOrbital = m_pInstance->GetSingleCreatureFromStorage(NPC_ORBITAL_SUPPORT);
             if (!pOrbital)
+            {
                 return;
+            }
 
             uint8 uiActiveTowers = 0;
 
@@ -384,13 +394,17 @@ struct boss_flame_leviathan : public CreatureScript
         void DoSpawnHodirFury()
         {
             for (uint8 i = 0; i < MAX_HODIR_FURY; ++i)
+            {
                 m_creature->SummonCreature(NPC_HODIR_FURY_VEHICLE, afHodirFury[i][0], afHodirFury[i][1], afHodirFury[i][2], 0, TEMPSUMMON_DEAD_DESPAWN, 0);
+            }
         }
 
         void DoSpawnFreyaWard()
         {
             for (uint8 i = 0; i < MAX_FREYA_WARD; ++i)
+            {
                 m_creature->SummonCreature(NPC_FREYA_WARD_VEHICLE, afFreyaWard[i][0], afFreyaWard[i][1], afFreyaWard[i][2], afFreyaWard[i][3], TEMPSUMMON_DEAD_DESPAWN, 0);
+            }
         }
 
         void DoSpawnMimironInferno()
@@ -402,7 +416,9 @@ struct boss_flame_leviathan : public CreatureScript
         void DoSpawnThorimHammer()
         {
             if (!m_pInstance)
+            {
                 return;
+            }
 
             // get a random point compared to the center and spawn the npcs
             if (Creature* pOrbital = m_pInstance->GetSingleCreatureFromStorage(NPC_ORBITAL_SUPPORT))
@@ -423,7 +439,9 @@ struct boss_flame_leviathan : public CreatureScript
             }
 
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             if (m_uiPursueTimer < uiDiff)
             {
@@ -605,7 +623,9 @@ struct npc_hodir_fury_reticle : public CreatureScript
         void MovementInform(uint32 uiMoveType, uint32 uiPointId) override
         {
             if (uiMoveType != POINT_MOTION_TYPE || !uiPointId)
+            {
                 return;
+            }
 
             // cast Hodir Fury on point reached and search for another target
             if (Creature* pHodirFury = m_creature->GetMap()->GetCreature(m_hodirFuryGuid))

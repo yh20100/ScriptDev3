@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020 MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -168,7 +168,9 @@ struct is_shadow_labyrinth : public InstanceScript
         {
             // If Hellmaw already completed, just ignore
             if (GetData(TYPE_HELLMAW) == DONE)
+            {
                 return;
+            }
 
             // Note: this is handled in Acid. The purpose is check which Cabal Ritualists is alive, in case of server reset
             // The function is triggered by eventAI on generic timer

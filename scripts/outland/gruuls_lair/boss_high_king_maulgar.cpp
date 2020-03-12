@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020 MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -269,7 +269,9 @@ struct Council_Base_AI : public ScriptedAI
     void JustDied(Unit* /*pVictim*/) override
     {
         if (!m_pInstance)
-        { return; }
+        {
+            return;
+        }
 
         Creature* pMaulgar = m_pInstance->GetSingleCreatureFromStorage(NPC_MAULGAR);
         if (pMaulgar && pMaulgar->IsAlive())

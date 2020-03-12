@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020 MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -76,12 +76,12 @@ enum
     NPC_VOID_SENTINEL               = 25772,    // scripted in Acid
 #if defined (WOTLK) || defined (CATA) || defined(MISTS)
     NPC_DARK_FIEND                  = 25744,
-    
+
     // darkness spells
     SPELL_VOID_ZONE_VISUAL          = 46265,
     SPELL_VOID_ZONE_PERIODIC        = 46262,
     SPELL_SUMMON_DARK_FIEND         = 46263,
-    
+
     // singularity spells
     SPELL_BLACK_HOLE_VISUAL         = 46242,
     SPELL_BLACK_HOLE_VISUAL_2       = 46247,

@@ -4,7 +4,7 @@
  * the default database scripting in mangos.
  *
  * Copyright (C) 2006-2013  ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2014-2019  MaNGOS  <https://getmangos.eu>
+ * Copyright (C) 2014-2020 MaNGOS <https://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@
  * npc_redemption_target      100%    Used for the paladin quests: 1779,1781,9600,9685
  * EndContentData
  */
- 
+
 #if defined (TBC) || defined (WOTLK) || defined (CATA) || defined(MISTS)
 /*########
 # npc_air_force_bots
@@ -577,7 +577,9 @@ struct npc_doctor : public CreatureScript
             if (!m_vPatientSummonCoordinates.empty())
             {
                 for (std::vector<Location*>::iterator itr = m_vPatientSummonCoordinates.begin(); itr != m_vPatientSummonCoordinates.end(); ++itr)
+                {
                     delete (*itr);
+                }
                 m_vPatientSummonCoordinates.clear();
             }
 
@@ -1347,7 +1349,9 @@ struct npc_spring_rabbit : public CreatureScript
                 pBunny = m_creature->GetMap()->GetAnyTypeCreature(m_partnerGuid);
 
             if (!pBunny)
+            {
                 return nullptr;
+            }
 
             return dynamic_cast<npc_spring_rabbitAI*>(pBunny->AI());
         }
@@ -1356,7 +1360,9 @@ struct npc_spring_rabbit : public CreatureScript
         void MoveInLineOfSight(Unit* pWho) override
         {
             if (m_creature->getVictim())
+            {
                 return;
+            }
 
             if (pWho->GetTypeId() == TYPEID_UNIT && pWho->GetEntry() == NPC_SPRING_RABBIT && CanStartWhatRabbitsDo() && m_creature->IsFriendlyTo(pWho) && m_creature->IsWithinDistInMap(pWho, DIST_START_EVENT, true))
             {
@@ -1383,16 +1389,22 @@ struct npc_spring_rabbit : public CreatureScript
                 return true;
             }
             else
+            {
                 return false;
+            }
         }
 
         void MovementInform(uint32 uiMovementType, uint32 uiData) override
         {
             if (uiMovementType != POINT_MOTION_TYPE || uiData != 1)
+            {
                 return;
+            }
 
             if (!m_partnerGuid)
+            {
                 return;
+            }
 
             m_uiStep = 3;
             if (npc_spring_rabbitAI* pOtherBunnyAI = GetPartnerAI())
@@ -1750,7 +1762,9 @@ struct npc_burster_worm : public CreatureScript
         void UpdateAI(const uint32 uiDiff) override
         {
             if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            {
                 return;
+            }
 
             // animation delay
             if (m_uiBirthDelayTimer)
